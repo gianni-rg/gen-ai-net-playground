@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.33530.505
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GenAIPlayground.CLI", "GenAIPlayground.CLI\GenAIPlayground.CLI.csproj", "{BC743E4F-29F2-44AB-978A-87E252FA1179}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GenAIPlayground.StableDiffusion", "GenAIPlayground.StableDiffusion\GenAIPlayground.StableDiffusion.csproj", "{BFF07768-EF1B-4F7F-A384-B87131047B2B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,15 +11,15 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{BC743E4F-29F2-44AB-978A-87E252FA1179}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{BC743E4F-29F2-44AB-978A-87E252FA1179}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{BC743E4F-29F2-44AB-978A-87E252FA1179}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{BC743E4F-29F2-44AB-978A-87E252FA1179}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BFF07768-EF1B-4F7F-A384-B87131047B2B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BFF07768-EF1B-4F7F-A384-B87131047B2B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BFF07768-EF1B-4F7F-A384-B87131047B2B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BFF07768-EF1B-4F7F-A384-B87131047B2B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {AA0EDA68-A27A-4504-B832-F53EB9FBB88D}
+		SolutionGuid = {3BCD8A63-CE9A-4B8B-B052-23D1D2F89C1A}
 	EndGlobalSection
 EndGlobal
