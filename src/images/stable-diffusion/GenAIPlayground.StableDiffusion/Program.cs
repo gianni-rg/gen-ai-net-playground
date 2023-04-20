@@ -7,6 +7,8 @@ using Microsoft.Extensions.Logging;
 using Splat;
 using System;
 using System.Globalization;
+using System.Reflection;
+using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using ILogger = Microsoft.Extensions.Logging.ILogger;
 
@@ -21,7 +23,7 @@ internal class Program
         CultureInfo.DefaultThreadCurrentCulture = CultureInfo.InvariantCulture;
         CultureInfo.DefaultThreadCurrentUICulture = CultureInfo.InvariantCulture;
 
-#if DEBUG
+#if RELEASE
         // Add the event handler for handling non-UI thread exceptions
         //AppDomain.CurrentDomain.FirstChanceException += CurrentDomain_FirstChanceException;
         AppDomain.CurrentDomain.UnhandledException += (sender, e) => HandleUnhandledException("Non-UI", (Exception)e.ExceptionObject);
@@ -33,8 +35,11 @@ internal class Program
             // Setup dependency injection
             Bootstrapper.Register(Locator.CurrentMutable, Locator.Current, args);
 
-            BuildAvaloniaApp()
-                .StartWithClassicDesktopLifetime(args, ShutdownMode.OnMainWindowClose);
+            // Log application version
+            var logger = Locator.Current.GetRequiredService<ILogger>();
+            logger.LogInformation("Application version: {version} ({runtime})", Assembly.GetEntryAssembly()?.GetName().Version, RuntimeInformation.RuntimeIdentifier);
+
+            BuildAvaloniaApp().StartWithClassicDesktopLifetime(args, ShutdownMode.OnMainWindowClose);
         }
         catch (Exception e)
         {

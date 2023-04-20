@@ -9,7 +9,6 @@ using Avalonia.Markup.Xaml;
 using GenAIPlayground.StableDiffusion.DependencyInjection;
 using GenAIPlayground.StableDiffusion.Interfaces.Services;
 using GenAIPlayground.StableDiffusion.Interfaces.ViewModels;
-using GenAIPlayground.StableDiffusion.ViewModels;
 using GenAIPlayground.StableDiffusion.Views;
 using Splat;
 
@@ -34,11 +33,9 @@ public partial class App : Application
             var navigationService = Locator.Current.GetRequiredService<INavigationService>();
             navigationService.NavigateTo<IMainViewModel>();
 
-            DataContext = Locator.Current.GetRequiredService<IMainWindowViewModel>();
-
             var mainWindow = new MainWindow
             {
-                DataContext = DataContext,
+                DataContext = Locator.Current.GetRequiredService<IMainWindowViewModel>(),
                 WindowState = WindowState.Maximized
 
             };

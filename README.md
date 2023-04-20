@@ -1,6 +1,6 @@
 # Generative AI .NET Playground
 
-An experimental application to play around with generative AI tasks (text, images, audio, and more), leveraging .NET, Avalonia and many other open-source toolkits and frameworks.
+A collection of experimental applications to play around with generative AI tasks (text, images, audio, and more), leveraging .NET, Avalonia and many other open-source toolkits and frameworks.
 
 - [Generative AI .NET Playground](#generative-ai-net-playground)
   - [Introduction](#introduction)
@@ -24,7 +24,8 @@ An experimental application to play around with generative AI tasks (text, image
     ├── README.md                      <- The top-level README for developers using this project
     ├── docs                           <- Project documentation
     ├── src                            <- Source code
-    │   ├──
+    │   └── images
+    │       └── stable-diffusion       <- Stable Diffusion playground
     |
     └── ...                            <- other files
 

@@ -5,8 +5,25 @@
     <Nullable>enable</Nullable>
     <BuiltInComInteropSupport>true</BuiltInComInteropSupport>
     <ApplicationManifest>app.manifest</ApplicationManifest>
+    <Version>0.0.1.0</Version>
   </PropertyGroup>
 
+  <PropertyGroup>
+    <!-- <RuntimeIdentifiers>osx-arm64</RuntimeIdentifiers> -->
+    <CFBundleName>Stable Diffusion (Generative AI Playground)</CFBundleName> <!-- Also defines .app file name -->
+    <CFBundleDisplayName>Stable Diffusion (Generative AI Playground)</CFBundleDisplayName>
+    <CFBundleIdentifier>gaip.sd</CFBundleIdentifier>
+    <CFBundleVersion>0.0.1.0</CFBundleVersion>
+    <CFBundleShortVersionString>0.0.1.0</CFBundleShortVersionString>
+    <CFBundlePackageType>APPL</CFBundlePackageType>
+    <CFBundleExecutable>GenAIPlaygroundStableDiffusion</CFBundleExecutable>
+    <CFBundleIconFile>Assets/avalonia-logo.ico</CFBundleIconFile> <!-- Will be copied from output directory -->
+    <NSPrincipalClass>NSApplication</NSPrincipalClass>
+    <NSHighResolutionCapable>true</NSHighResolutionCapable>
+    <!-- Optional -->
+    <NSRequiresAquaSystemAppearance>true</NSRequiresAquaSystemAppearance>
+  </PropertyGroup>
+  
   <ItemGroup>
     <AvaloniaResource Include="Assets\**" />
     <None Remove=".gitignore" />
