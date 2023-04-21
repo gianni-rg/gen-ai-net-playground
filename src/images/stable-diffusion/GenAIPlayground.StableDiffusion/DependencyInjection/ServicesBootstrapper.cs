@@ -1,4 +1,7 @@
-﻿namespace GenAIPlayground.StableDiffusion.DependencyInjection;
+﻿// Copyright (C) Gianni Rosa Gallina.
+// Licensed under the Apache License, Version 2.0.
+
+namespace GenAIPlayground.StableDiffusion.DependencyInjection;
 
 using GenAIPlayground.StableDiffusion.Interfaces.Services;
 using GenAIPlayground.StableDiffusion.Models.Enums;

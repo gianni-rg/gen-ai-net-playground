@@ -67,4 +67,12 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
+
+  <ItemGroup>
+    <EditorConfigFiles Remove="D:\Personal\gen-ai-net-playground\src\images\stable-diffusion\GenAIPlayground.StableDiffusion\.editorconfig" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="D:\Personal\gen-ai-net-playground\src\images\stable-diffusion\GenAIPlayground.StableDiffusion\.editorconfig" />
+  </ItemGroup>
 </Project>

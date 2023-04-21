@@ -1,4 +1,7 @@
-﻿namespace GenAIPlayground.StableDiffusion;
+﻿// Copyright (C) Gianni Rosa Gallina.
+// Licensed under the Apache License, Version 2.0.
+
+namespace GenAIPlayground.StableDiffusion;
 
 using Avalonia;
 using Avalonia.Controls;
@@ -35,7 +38,7 @@ internal class Program
             // Setup dependency injection
             Bootstrapper.Register(Locator.CurrentMutable, Locator.Current, args);
 
-            // Log application version
+            // Log application version on startup
             var logger = Locator.Current.GetRequiredService<ILogger>();
             logger.LogInformation("Application version: {version} ({runtime})", Assembly.GetEntryAssembly()?.GetName().Version, RuntimeInformation.RuntimeIdentifier);
 
@@ -43,10 +46,10 @@ internal class Program
         }
         catch (Exception e)
         {
-#if DEBUG
-            throw new Exception("UnhandledException", e);
-#else
+#if RELEASE
             HandleUnhandledException("Application", e);
+#else
+            throw new Exception("UnhandledException", e);
 #endif
         }
     }

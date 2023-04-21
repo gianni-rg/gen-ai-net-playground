@@ -1,3 +1,6 @@
+// Copyright (C) Gianni Rosa Gallina.
+// Licensed under the Apache License, Version 2.0.
+
 using Avalonia.Controls;
 using Avalonia.Controls.Templates;
 using GenAIPlayground.StableDiffusion.ViewModels;
