@@ -1,0 +1,31 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:GenAIPlayground.Whisper.ViewModels"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:views="using:GenAIPlayground.Whisper.Views"
+        xmlns:vms="using:GenAIPlayground.Whisper.ViewModels"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="GenAIPlayground.Whisper.Views.MainView">
+
+  <Design.DataContext>
+    <vms:MainViewModel />
+  </Design.DataContext>
+
+  <Grid ColumnDefinitions="*" RowDefinitions="Auto,*,Auto">
+    <Menu Grid.Row="0" Grid.Column="0">
+      <MenuItem Header="_File">
+        <MenuItem
+            Command="{Binding ExitCommand}"
+            CommandParameter="false"
+            Header="E_xit"
+            HotKey="Alt+F4"
+            InputGesture="Alt+F4" />
+      </MenuItem>
+      <MenuItem Header="_Help">
+        <MenuItem Command="{Binding ShowAboutDialogCommand}" Header="_About" />
+      </MenuItem>
+    </Menu>
+  </Grid>
+
+</UserControl>

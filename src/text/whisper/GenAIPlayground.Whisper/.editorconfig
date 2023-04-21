@@ -1,0 +1,2 @@
+[*.cs]
+file_header_template = Copyright (C) Gianni Rosa Gallina.\nLicensed under the Apache License, Version 2.0.
