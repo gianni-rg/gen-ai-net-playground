@@ -52,7 +52,9 @@ public static class LoggingBootstrapper
         var currentLogFolder = config.LogFolder;
         string? rootDir = null;
 
-        if (currentPlatform == Models.Enums.Platform.MacOs || currentPlatform == Models.Enums.Platform.Linux)
+        if (currentPlatform == Models.Enums.Platform.Windows ||
+            currentPlatform == Models.Enums.Platform.MacOs ||
+            currentPlatform == Models.Enums.Platform.Linux)
         {
             rootDir = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
             currentLogFolder = Path.Combine(App.AppStorageFolderName, currentLogFolder);

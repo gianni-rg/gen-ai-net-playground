@@ -1,5 +1,6 @@
 # Generative AI Playground - Stable Diffusion Build and Publish Script
-# Copyright (C) 2023 Gianni Rosa Gallina.
+# Copyright (C) Gianni Rosa Gallina.
+# Licensed under the Apache License, Version 2.0.
 
 $env:DOTNET_SKIP_FIRST_TIME_EXPERIENCE = 1
 $env:DOTNET_CLI_TELEMETRY_OPTOUT = 1
