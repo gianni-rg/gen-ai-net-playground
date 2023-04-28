@@ -1,0 +1,20 @@
+﻿<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+  <Design.PreviewWith>
+      <Border Padding="20"></Border>
+  </Design.PreviewWith>
+	
+  <Styles.Resources>
+      <SolidColorBrush x:Key="LogoColor" Color="#660066" />
+		  <Color x:Key="BlackColor">#000000</Color>
+		  <SolidColorBrush x:Key="DialogOverlayBrush" Color="{DynamicResource BlackColor}" />
+  </Styles.Resources>
+
+	<Style Selector="Grid#OverlayGrid">
+		<Setter Property="ZIndex" Value="1000" />
+		<Setter Property="Background" Value="{DynamicResource DialogOverlayBrush}" />
+		<Setter Property="Opacity" Value="0.25" />
+	</Style>
+	
+</Styles>

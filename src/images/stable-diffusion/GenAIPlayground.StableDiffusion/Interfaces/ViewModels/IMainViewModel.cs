@@ -3,6 +3,8 @@
 
 namespace GenAIPlayground.StableDiffusion.Interfaces.ViewModels;
 
+using CommunityToolkit.Mvvm.Input;
+
 public interface IMainViewModel : IViewModel
 {
     IViewModel? CurrentViewModel { get; }
@@ -10,4 +12,5 @@ public interface IMainViewModel : IViewModel
     bool IsDialogOpen { get; }
     string StatusMessage { get; }
     bool IsBusy { get; }
+    IRelayCommand<string> ExitCommand { get; }
 }

@@ -35,6 +35,8 @@ public static class ViewModelsBootstrapper
         ));
 
         services.Register<IAboutViewModel>(() => new AboutViewModel());
+
+        services.Register<IErrorMessageViewModel>(() => new ErrorMessageViewModel());
     }
 
     private static void RegisterPlatformSpecificViewModels(IMutableDependencyResolver services, IReadonlyDependencyResolver resolver)

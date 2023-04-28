@@ -60,7 +60,18 @@ internal class Program
         return AppBuilder
             .Configure<App>()
             .UsePlatformDetect()
-            .LogToTrace();
+            .LogToTrace()
+            .With(new Win32PlatformOptions()
+            {
+                UseWindowsUIComposition = true,
+                CompositionBackdropCornerRadius = 8f,
+                //AllowEglInitialization = true,
+                //UseWgl = true
+            })
+            //.With(new X11PlatformOptions { UseGpu = true/*, UseEGL = true*/ })
+            .With(new MacOSPlatformOptions { ShowInDock = true, DisableDefaultApplicationMenuItems = true, DisableNativeMenus = true })
+            .With(new AvaloniaNativePlatformOptions { UseGpu = true });
+            //.WithIcons(container => container.Register<FontAwesomeIconProvider>());
     }
 
     private static void HandleUnhandledException(string category, Exception ex)

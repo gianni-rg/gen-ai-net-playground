@@ -5,14 +5,20 @@ namespace GenAIPlayground.StableDiffusion.ViewModels;
 
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
 using GenAIPlayground.StableDiffusion.Interfaces.Services;
 using GenAIPlayground.StableDiffusion.Interfaces.ViewModels;
+using GenAIPlayground.StableDiffusion.Models;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Threading.Tasks;
 
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
-public partial class MainViewModel : ViewModelBase, IMainViewModel
+public partial class MainViewModel : ViewModelBase,
+                                    IMainViewModel,
+                                    IRecipient<UpdateStatusBarMessage>,
+                                    IRecipient<BusyStatusChangedMessage>,
+                                    IRecipient<NotifyErrorMessage>
 {
     #region Private fields
     private readonly ILogger _logger;
@@ -43,6 +49,8 @@ public partial class MainViewModel : ViewModelBase, IMainViewModel
     public MainViewModel()
     {
         // DESIGN TIME //
+        IsBusy = true;
+        UpdateStatusBar("Ready");
     }
 
     public MainViewModel(ILogger logger,
@@ -59,26 +67,53 @@ public partial class MainViewModel : ViewModelBase, IMainViewModel
     public override void Dispose()
     {
         _navigationStore.CurrentViewModelChanged -= OnCurrentViewModelChanged;
-
         IsActive = false;
-
-        // Unregisters the recipient from all messages
-        //WeakReferenceMessenger.Default.Unregister<XXXMessage>(this);
     }
     #endregion
 
+    #region Commands
     [RelayCommand]
-    private Task ShowAboutDialog() => _dialogService.ShowDialogAsync(nameof(AboutViewModel));
+    private Task ShowAboutDialog() => _dialogService.ShowDialogAsync<AboutViewModel>();
 
     [RelayCommand]
-    private void Exit()
+    private void Exit(string isClosing)
     {
-        // TODO: Send CloseRequestMessage
+        if (bool.Parse(isClosing))
+        {
+            return;
+        }
+
+        Messenger.Send(new ExitApplicationMessage());
+    }
+    #endregion
+
+    #region Message Handlers
+    public void Receive(UpdateStatusBarMessage m)
+    {
+        UpdateStatusBar(m.Text);
     }
 
+    public void Receive(BusyStatusChangedMessage m)
+    {
+        IsBusy = m.IsBusy;
+    }
+
+    public async void Receive(NotifyErrorMessage m)
+    {
+        await _dialogService.ShowDialogAsync<ErrorMessageViewModel, NotifyErrorMessage>(m);
+    }
+    #endregion
+
+    #region Private methods
     private void OnCurrentViewModelChanged()
     {
         OnPropertyChanged(nameof(CurrentViewModel));
     }
+
+    private void UpdateStatusBar(string text)
+    {
+        StatusMessage = text;
+    }
+    #endregion
 }
 #pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
