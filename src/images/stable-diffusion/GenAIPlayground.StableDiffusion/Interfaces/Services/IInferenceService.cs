@@ -1,4 +1,4 @@
-// Copyright (C) 2023 Gianni Rosa Gallina. All rights reserved.
+﻿// Copyright (C) 2023 Gianni Rosa Gallina. All rights reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License").
 // You may not use this file except in compliance with the License.
@@ -12,14 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace GenAIPlayground.StableDiffusion.Models;
+namespace GenAIPlayground.StableDiffusion.Interfaces.Services;
 
-public class UpdateStatusBarMessage
+using GenAIPlayground.StableDiffusion.Interfaces.ViewModels;
+using System;
+
+public interface IInferenceService
 {
-    public string Text { get; }
-
-    public UpdateStatusBarMessage(string text)
-    {
-        Text = text;
-    }
 }

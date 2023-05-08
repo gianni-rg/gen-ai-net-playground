@@ -1,5 +1,16 @@
-﻿// Copyright (C) Gianni Rosa Gallina.
-// Licensed under the Apache License, Version 2.0.
+﻿// Copyright (C) 2023 Gianni Rosa Gallina. All rights reserved.
+//
+// Licensed under the Apache License, Version 2.0 (the "License").
+// You may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//      http://www.apache.org/licenses/LICENSE-2.0.
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
 
 namespace GenAIPlayground.StableDiffusion;
 
@@ -71,7 +82,7 @@ internal class Program
             //.With(new X11PlatformOptions { UseGpu = true/*, UseEGL = true*/ })
             .With(new MacOSPlatformOptions { ShowInDock = true, DisableDefaultApplicationMenuItems = true, DisableNativeMenus = true })
             .With(new AvaloniaNativePlatformOptions { UseGpu = true });
-            //.WithIcons(container => container.Register<FontAwesomeIconProvider>());
+        //.WithIcons(container => container.Register<FontAwesomeIconProvider>());
     }
 
     private static void HandleUnhandledException(string category, Exception ex)
