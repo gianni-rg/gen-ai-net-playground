@@ -33,6 +33,14 @@ A collection of experimental applications to play around with generative AI task
 
 Clone the repository and build.
 
+Requirements to run locally:
+
+- Windows 11
+- Visual Studio 2022, .NET 7.0
+- GPU enabled machine, with CUDA and cuDNN properly configured
+
+This was built on a NVIDIA RTX 3090 and it has not been tested on different devices.
+
 ---
 
 ## Contribution
