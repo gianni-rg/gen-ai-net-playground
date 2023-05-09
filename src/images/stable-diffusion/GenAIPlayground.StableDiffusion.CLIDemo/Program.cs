@@ -15,8 +15,8 @@
 namespace GenAIPlayground.StableDiffusion.CLIDemo;
 
 using SharpDiffusion;
+using SixLabors.ImageSharp;
 using System.Diagnostics;
-using System.Reflection;
 
 internal class Program
 {
@@ -44,9 +44,9 @@ internal class Program
 
         var sdConfig = new StableDiffusionConfig
         {
-            NumInferenceSteps = 20,
+            NumInferenceSteps = 30,
             GuidanceScale = 7.5,
-            NumImagesPerPrompt = 5,
+            NumImagesPerPrompt = 5
         };
 
         Stopwatch partialStopwatch = Stopwatch.StartNew();
@@ -84,18 +84,29 @@ internal class Program
 
         Console.WriteLine("Pipeline is running. Please wait...");
 
-        sdPipeline.Run(prompts,
-                       negativePrompts,
-                       sdConfig);
+        var output = sdPipeline.Run(prompts, negativePrompts, sdConfig, t => { Console.WriteLine($"Pipeline is running. Step {t + 1}/{sdConfig.NumInferenceSteps}"); });
 
         totalStopwatch.Stop();
         partialStopwatch.Stop();
 
         Console.WriteLine($"Stable Diffusion pipeline completed.\nInit: {initTimeElapsed}ms Run: {partialStopwatch.ElapsedMilliseconds}ms Tot: {totalStopwatch.ElapsedMilliseconds}ms\n");
 
-        var outputPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+        if (output.Images is null || output.Images.Count == 0)
+        {
+            Console.WriteLine($"No images generated");
+            return;
+        }
 
+        var outputPath = Directory.GetCurrentDirectory();
         Console.WriteLine($"Generated image can be found in:\n{outputPath}");
+
+        int i = 0;
+        foreach (var image in output.Images)
+        {
+            var imageName = $"sd_image_{DateTime.Now.ToString("yyyyMMddHHmm")}_{i++}.png";
+            var imagePath = Path.Combine(outputPath, imageName);
+            image.Save(imagePath);
+        }
 
         Process.Start("explorer.exe", outputPath);
     }
