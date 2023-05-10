@@ -28,6 +28,7 @@ public static class ConfigurationBootstrapper
 
         RegisterLoggingConfiguration(services, configuration);
         RegisterAppSettingsConfiguration(services, configuration);
+        RegisterImageGeneratorSettingsConfiguration(services, configuration);
     }
 
     private static IConfiguration BuildConfiguration(string[] args)
@@ -74,6 +75,13 @@ public static class ConfigurationBootstrapper
     {
         var config = new AppSettings();
         configuration.GetSection("Settings").Bind(config);
+        services.RegisterConstant(config);
+    }
+
+    private static void RegisterImageGeneratorSettingsConfiguration(IMutableDependencyResolver services, IConfiguration configuration)
+    {
+        var config = new ImageGeneratorSettings();
+        configuration.GetSection("ImageGenerator").Bind(config);
         services.RegisterConstant(config);
     }
 }

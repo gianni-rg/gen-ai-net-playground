@@ -25,7 +25,8 @@ using Microsoft.Extensions.Logging;
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
 public partial class MainWindowViewModel : ViewModelBase,
                                            IMainWindowViewModel,
-                                           IRecipient<ExitApplicationMessage>
+                                           IRecipient<ExitApplicationMessage>,
+                                           IRecipient<BusyStatusChangedMessage>
 
 {
     #region Private fields
@@ -84,6 +85,11 @@ public partial class MainWindowViewModel : ViewModelBase,
     {
         var lifetime = (IClassicDesktopStyleApplicationLifetime?)Application.Current?.ApplicationLifetime;
         lifetime?.MainWindow?.Close();
+    }
+
+    public void Receive(BusyStatusChangedMessage m)
+    {
+        ShowOverlay = m.ShowOverlay;
     }
     #endregion
 }

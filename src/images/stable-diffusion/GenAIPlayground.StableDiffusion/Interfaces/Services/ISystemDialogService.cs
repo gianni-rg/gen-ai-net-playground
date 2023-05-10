@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Lab.ACG.AnnotationTool.UI.Interfaces.Services;
+namespace GenAIPlayground.StableDiffusion.Interfaces.Services;
 
 using Avalonia.Controls;
 using System.Collections.Generic;

@@ -16,10 +16,10 @@ namespace GenAIPlayground.StableDiffusion.DependencyInjection;
 
 using GenAIPlayground.StableDiffusion.Interfaces.Services;
 using GenAIPlayground.StableDiffusion.Models.Enums;
+using GenAIPlayground.StableDiffusion.Models.Settings;
 using GenAIPlayground.StableDiffusion.Services;
 using Splat;
 using System;
-using ILogger = Microsoft.Extensions.Logging.ILogger;
 
 public static class ServicesBootstrapper
 {
@@ -32,9 +32,10 @@ public static class ServicesBootstrapper
     private static void RegisterCommonServices(IMutableDependencyResolver services, IReadonlyDependencyResolver resolver)
     {
         services.RegisterLazySingleton(() => new NavigationStore());
-        //services.RegisterLazySingleton<ISystemDialogService>(() => new SystemDialogService(resolver.GetRequiredService<IMainWindowProvider>()));
+        services.RegisterLazySingleton<ISystemDialogService>(() => new SystemDialogService());
         services.RegisterLazySingleton<INavigationService>(() => new NavigationService(resolver, resolver.GetRequiredService<NavigationStore>()));
         services.RegisterLazySingleton<IDialogService>(() => new DialogService(resolver));
+        services.RegisterLazySingleton<IImageGeneratorService>(() => new ImageGeneratorService(resolver.GetRequiredService<Microsoft.Extensions.Logging.ILogger>(), resolver.GetRequiredService<ImageGeneratorSettings>()));
     }
 
     private static void RegisterPlatformSpecificServices(IMutableDependencyResolver services, IReadonlyDependencyResolver resolver)

@@ -1,4 +1,4 @@
-﻿// Copyright (C) 2023 Gianni Rosa Gallina. All rights reserved.
+// Copyright (C) 2023 Gianni Rosa Gallina. All rights reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License").
 // You may not use this file except in compliance with the License.
@@ -12,11 +12,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace GenAIPlayground.StableDiffusion.Services;
+namespace GenAIPlayground.StableDiffusion.Models.Settings;
 
-using GenAIPlayground.StableDiffusion.Interfaces.Services;
-
-public class InferenceService : IInferenceService
+public class ImageGeneratorSettings
 {
+    public string ModelId { get; set; }
+    public string Provider { get; set; }
 
+    public ImageGeneratorSettings()
+    {
+        Provider = string.Empty;
+        ModelId = string.Empty;
+    }
 }

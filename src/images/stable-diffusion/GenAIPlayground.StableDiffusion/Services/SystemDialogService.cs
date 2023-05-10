@@ -18,7 +18,6 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using GenAIPlayground.StableDiffusion.Interfaces.ViewModels;
-using Lab.ACG.AnnotationTool.UI.Interfaces.Services;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;

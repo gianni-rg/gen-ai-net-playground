@@ -12,11 +12,18 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+
 namespace GenAIPlayground.StableDiffusion.Interfaces.Services;
 
-using GenAIPlayground.StableDiffusion.Interfaces.ViewModels;
+using Avalonia.Media.Imaging;
+using GenAIPlayground.StableDiffusion.Models.Settings;
 using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
-public interface IInferenceService
+public interface IImageGeneratorService
 {
+    ImageGeneratorSettings Config { get; }
+    Task ConfigureImageGeneratorAsync(string modelId, string onnxProvider, Dictionary<string, string> options);
+    List<Bitmap> GenerateImages(string prompt, string negativePrompt, int steps = 20, float guidance = 7.5f, int imagesPerPrompt = 1, Action<int> callback = null);
 }

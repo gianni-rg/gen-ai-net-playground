@@ -41,8 +41,10 @@ public static class ViewModelsBootstrapper
         services.RegisterLazySingleton<IMainViewModel>(() => new MainViewModel(
             resolver.GetRequiredService<ILogger>(),
             resolver.GetRequiredService<IDialogService>(),
+            resolver.GetRequiredService<ISystemDialogService>(),
             resolver.GetRequiredService<NavigationStore>(),
-            resolver.GetRequiredService<INavigationService>()
+            resolver.GetRequiredService<INavigationService>(),
+            resolver.GetRequiredService<IImageGeneratorService>()
         ));
 
         services.Register<IAboutViewModel>(() => new AboutViewModel());
