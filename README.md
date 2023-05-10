@@ -24,8 +24,10 @@ A collection of experimental applications to play around with generative AI task
     ├── README.md                      <- The top-level README for developers using this project
     ├── docs                           <- Project documentation
     ├── src                            <- Source code
-    │   └── images
-    │       └── stable-diffusion       <- Stable Diffusion playground
+    │   ├── images
+    │   │   └── stable-diffusion       <- Stable Diffusion playground
+    │   └── text
+    │       └── whisper                <- Whisper (Speech-To-Text) playground
     |
     └── ...                            <- other files
 
