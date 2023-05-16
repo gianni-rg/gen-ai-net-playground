@@ -17,9 +17,10 @@ namespace GenAIPlayground.StableDiffusion.Services;
 using Avalonia.Media.Imaging;
 using GenAIPlayground.StableDiffusion.Interfaces.Services;
 using GenAIPlayground.StableDiffusion.Models.Settings;
-using MathNet.Numerics.LinearAlgebra.Factorization;
 using Microsoft.Extensions.Logging;
+using Microsoft.ML.OnnxRuntime.Tensors;
 using SharpDiffusion;
+using SharpDiffusion.Interfaces;
 using SixLabors.Fonts;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Drawing.Processing;
@@ -34,7 +35,7 @@ using System.Threading.Tasks;
 public class ImageGeneratorService : IImageGeneratorService
 {
     private readonly ILogger _logger;
-    private OnnxStableDiffusionPipeline _sdPipeline;
+    private IDiffusionPipeline _sdPipeline;
 
     public ImageGeneratorSettings Config { get; }
 
@@ -48,7 +49,7 @@ public class ImageGeneratorService : IImageGeneratorService
     {
         _sdPipeline?.Dispose();
 
-        _sdPipeline = OnnxStableDiffusionPipeline.FromPretrained(modelId, provider: onnxProvider, sessionOptions: options);
+        _sdPipeline = OnnxStableDiffusionPipeline<Half>.FromPretrained(modelId, provider: onnxProvider, sessionOptions: options);
 
         // Dummy pipeline execution (to pre-load ONNX engine)
         var sdConfig = new StableDiffusionConfig
