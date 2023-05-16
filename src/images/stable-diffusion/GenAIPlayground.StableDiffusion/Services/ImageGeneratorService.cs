@@ -18,6 +18,7 @@ using Avalonia.Media.Imaging;
 using GenAIPlayground.StableDiffusion.Interfaces.Services;
 using GenAIPlayground.StableDiffusion.Models.Settings;
 using Microsoft.Extensions.Logging;
+using Microsoft.ML.OnnxRuntime;
 using Microsoft.ML.OnnxRuntime.Tensors;
 using SharpDiffusion;
 using SharpDiffusion.Interfaces;
@@ -35,7 +36,7 @@ using System.Threading.Tasks;
 public class ImageGeneratorService : IImageGeneratorService
 {
     private readonly ILogger _logger;
-    private IDiffusionPipeline _sdPipeline;
+    private IDiffusionPipeline? _sdPipeline;
 
     public ImageGeneratorSettings Config { get; }
 
@@ -45,11 +46,18 @@ public class ImageGeneratorService : IImageGeneratorService
         Config = config;
     }
 
-    public async Task ConfigureImageGeneratorAsync(string modelId, string onnxProvider, Dictionary<string, string> options)
+    public async Task ConfigureImageGeneratorAsync(string modelId, string onnxProvider, bool halfPrecision, Dictionary<string, string> options)
     {
         _sdPipeline?.Dispose();
 
-        _sdPipeline = OnnxStableDiffusionPipeline<Half>.FromPretrained(modelId, provider: onnxProvider, sessionOptions: options);
+        _sdPipeline = DiffusionPipelineFactory.FromPretrained<OnnxStableDiffusionPipeline>(modelId, onnxProvider, halfPrecision, options);
+        
+        if(_sdPipeline is null)
+        {
+            throw new InvalidOperationException("Unable to load the OnnxStableDiffusionPipeline");
+        }
+
+        //_sdPipeline = OnnxStableDiffusionPipeline.FromPretrained(modelId, provider: onnxProvider, halfPrecision: halfPrecision, sessionOptions: options);
 
         // Dummy pipeline execution (to pre-load ONNX engine)
         var sdConfig = new StableDiffusionConfig
