@@ -17,9 +17,9 @@ namespace GenAIPlayground.StableDiffusion.Services;
 using Avalonia.Media.Imaging;
 using GenAIPlayground.StableDiffusion.Interfaces.Services;
 using GenAIPlayground.StableDiffusion.Models.Settings;
-using MathNet.Numerics.LinearAlgebra.Factorization;
 using Microsoft.Extensions.Logging;
 using SharpDiffusion;
+using SharpDiffusion.Interfaces;
 using SixLabors.Fonts;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Drawing.Processing;
@@ -34,7 +34,7 @@ using System.Threading.Tasks;
 public class ImageGeneratorService : IImageGeneratorService
 {
     private readonly ILogger _logger;
-    private OnnxStableDiffusionPipeline _sdPipeline;
+    private IDiffusionPipeline? _sdPipeline;
 
     public ImageGeneratorSettings Config { get; }
 
@@ -44,11 +44,16 @@ public class ImageGeneratorService : IImageGeneratorService
         Config = config;
     }
 
-    public async Task ConfigureImageGeneratorAsync(string modelId, string onnxProvider, Dictionary<string, string> options)
+    public async Task ConfigureImageGeneratorAsync(string modelId, string onnxProvider, bool halfPrecision, Dictionary<string, string> options)
     {
         _sdPipeline?.Dispose();
 
-        _sdPipeline = OnnxStableDiffusionPipeline.FromPretrained(modelId, provider: onnxProvider, sessionOptions: options);
+        _sdPipeline = DiffusionPipelineFactory.FromPretrained<OnnxStableDiffusionPipeline>(modelId, onnxProvider, halfPrecision, options);
+
+        if (_sdPipeline is null)
+        {
+            throw new InvalidOperationException("Unable to load the OnnxStableDiffusionPipeline");
+        }
 
         // Dummy pipeline execution (to pre-load ONNX engine)
         var sdConfig = new StableDiffusionConfig
@@ -88,7 +93,7 @@ public class ImageGeneratorService : IImageGeneratorService
             negativePrompt = string.Empty;
         }
 
-        var pipelineOutput = _sdPipeline.Run(new List<string> { prompt }, new List<string> { negativePrompt }, sdConfig, callback);
+        var pipelineOutput = _sdPipeline!.Run(new List<string> { prompt }, new List<string> { negativePrompt }, sdConfig, callback);
 
         if (pipelineOutput.Images is null || pipelineOutput.Images.Count == 0)
         {

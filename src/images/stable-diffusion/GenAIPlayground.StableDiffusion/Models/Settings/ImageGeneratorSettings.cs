@@ -18,10 +18,12 @@ public class ImageGeneratorSettings
 {
     public string ModelId { get; set; }
     public string Provider { get; set; }
+    public bool HalfPrecision { get; set; }
 
     public ImageGeneratorSettings()
     {
         Provider = string.Empty;
         ModelId = string.Empty;
+        HalfPrecision = false;
     }
 }

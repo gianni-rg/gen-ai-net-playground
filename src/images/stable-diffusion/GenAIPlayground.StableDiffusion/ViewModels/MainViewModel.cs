@@ -285,7 +285,7 @@ public partial class MainViewModel : ViewModelBase,
 
         _stopwatch.Restart();
 
-        await _imageGeneratorService.ConfigureImageGeneratorAsync(_imageGeneratorService.Config.ModelId, onnxProvider, options);
+        await _imageGeneratorService.ConfigureImageGeneratorAsync(_imageGeneratorService.Config.ModelId, onnxProvider, _imageGeneratorService.Config.HalfPrecision, options);
 
         _stopwatch.Stop();
 
