@@ -28,15 +28,21 @@ internal class Program
             { "arena_extend_strategy", "kSameAsRequested" },
             };
 
-        var modelId = "D:\\Personal\\GitHub\\hf-diffusers\\stable_diffusion_onnx-runway";
         var provider = "CUDAExecutionProvider";
         //var provider = "CPUExecutionProvider";
 
+        var modelId = "PATH_TO_STABLE_DIFFUSION_MODEL_ONNX"; 
+        var halfPrecision = false;
+
+        //var modelId = "PATH_TO_OPTIMIZED_STABLE_DIFFUSION_MODEL_ONNX"; 
+        //var halfPrecision = true;
+
         Stopwatch totalStopwatch = Stopwatch.StartNew();
 
-        Console.WriteLine($"Initializing Stable Diffusion pipeline (v1.5 ONNX on {provider}). Please wait...");
+        Console.WriteLine($"Initializing Stable Diffusion pipeline (v1.5 ONNX on '{provider}' FP16: {halfPrecision}). Please wait...");
 
-        var sdPipeline = OnnxStableDiffusionPipeline.FromPretrained(modelId, provider: provider, sessionOptions: options);
+        //var sdPipeline = OnnxStableDiffusionPipeline.FromPretrained(modelId, provider: provider, sessionOptions: options);
+        var sdPipeline = DiffusionPipelineFactory.FromPretrained<OnnxStableDiffusionPipeline>(modelId, provider, halfPrecision, options);
 
         var initTimeElapsed = totalStopwatch.ElapsedMilliseconds;
         Console.WriteLine($"Stable Diffusion pipeline initialized ({initTimeElapsed}ms).");
