@@ -74,7 +74,7 @@
         </StackPanel>
         
         <ScrollViewer Grid.Row="3" Grid.ColumnSpan="2" Margin="10, 10, 10, 10">
-          <ItemsRepeater Items="{Binding GeneratedImages}">
+          <ItemsRepeater ItemsSource="{Binding GeneratedImages}">
             <ItemsRepeater.ItemTemplate>
               <DataTemplate>
                 <Image Source="{Binding}" MaxWidth="512" MaxHeight="512">

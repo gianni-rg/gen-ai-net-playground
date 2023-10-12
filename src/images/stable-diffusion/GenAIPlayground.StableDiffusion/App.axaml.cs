@@ -42,7 +42,13 @@ public partial class App : Application
         {
             // Line below is needed to remove Avalonia data validation.
             // Without this line you will get duplicate validations from both Avalonia and CT
-            ExpressionObserver.DataValidators.RemoveAll(x => x is DataAnnotationsValidationPlugin);
+            for (int i = BindingPlugins.DataValidators.Count - 1; i >= 0; i--)
+            {
+                if (BindingPlugins.DataValidators[i] is DataAnnotationsValidationPlugin)
+                {
+                    BindingPlugins.DataValidators.RemoveAt(i);
+                }
+            }
 
             var navigationService = Locator.Current.GetRequiredService<INavigationService>();
             navigationService.NavigateTo<IMainViewModel>();

@@ -4,7 +4,7 @@
              x:Class="GenAIPlayground.StableDiffusion.App">
     
   <Application.Styles>
-      <FluentTheme Mode="Light"/>
+      <FluentTheme />
       <StyleInclude Source="/Assets/Styles/Styles.xaml" />
   </Application.Styles>
   
