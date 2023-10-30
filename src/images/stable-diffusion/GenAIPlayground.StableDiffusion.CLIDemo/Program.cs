@@ -31,7 +31,7 @@ internal class Program
         var provider = "CUDAExecutionProvider";
         //var provider = "CPUExecutionProvider";
 
-        var modelId = "PATH_TO_STABLE_DIFFUSION_MODEL_ONNX"; 
+        var modelId = "PATH_TO_STABLE_DIFFUSION_MODEL_ONNX";
         var halfPrecision = false;
 
         //var modelId = "PATH_TO_OPTIMIZED_STABLE_DIFFUSION_MODEL_ONNX"; 
@@ -41,8 +41,12 @@ internal class Program
 
         Console.WriteLine($"Initializing Stable Diffusion pipeline (v1.5 ONNX on '{provider}' FP16: {halfPrecision}). Please wait...");
 
-        //var sdPipeline = OnnxStableDiffusionPipeline.FromPretrained(modelId, provider: provider, sessionOptions: options);
         var sdPipeline = DiffusionPipelineFactory.FromPretrained<OnnxStableDiffusionPipeline>(modelId, provider, halfPrecision, options);
+        if (sdPipeline is null)
+        {
+            Console.WriteLine($"ERROR: unable to initialize the pipeline. Check the configuration.");
+            return;
+        }
 
         var initTimeElapsed = totalStopwatch.ElapsedMilliseconds;
         Console.WriteLine($"Stable Diffusion pipeline initialized ({initTimeElapsed}ms).");
@@ -50,9 +54,9 @@ internal class Program
 
         var sdConfig = new StableDiffusionConfig
         {
-            NumInferenceSteps = 30,
+            NumInferenceSteps = 25,
             GuidanceScale = 7.5,
-            NumImagesPerPrompt = 5
+            NumImagesPerPrompt = 4
         };
 
         Stopwatch partialStopwatch = Stopwatch.StartNew();
@@ -67,7 +71,7 @@ internal class Program
             //string.Empty,     
         };
 
-        Console.WriteLine($"Pipeline will generate {sdConfig.NumImagesPerPrompt} images per prompt @ {sdConfig.Height}x{sdConfig.Width}");
+        Console.WriteLine($"Pipeline will generate {sdConfig.NumImagesPerPrompt} image(s) per prompt @ {sdConfig.Height}x{sdConfig.Width}");
         Console.WriteLine();
 
         Console.WriteLine("Prompts:");
@@ -106,12 +110,12 @@ internal class Program
         var outputPath = Directory.GetCurrentDirectory();
         Console.WriteLine($"Generated image can be found in:\n{outputPath}");
 
-        int i = 0;
-        foreach (var image in output.Images)
+        for (int i = 0; i < output.Images.Count; i++)
         {
-            var imageName = $"sd_image_{DateTime.Now.ToString("yyyyMMddHHmm")}_{i++}.png";
+            var nsfw = output.NSFWContentDetected[i] ? "_NSFW" : string.Empty;
+            var imageName = $"sd_image_{DateTime.Now.ToString("yyyyMMddHHmm")}_{i}{nsfw}.png";
             var imagePath = Path.Combine(outputPath, imageName);
-            image.Save(imagePath);
+            output.Images[i].Save(imagePath);
         }
 
         Process.Start("explorer.exe", outputPath);
