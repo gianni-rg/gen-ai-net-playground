@@ -28,9 +28,7 @@ internal class Program
         if (args.Length < 3)
         {
             Console.WriteLine("Usage: whisper-cli <file: path> <language: auto, it, en> <model: tiny, base, small, medium, large>");
-            Console.WriteLine("Example: whisper-cli whisperdemo_EN.wav en small");
-            Console.WriteLine("Example: whisper-cli whisperdemo_IT.wav it small");
-            Console.WriteLine("Example: whisper-cli whisperdemo_IT.wav auto tiny");
+            Console.WriteLine("Example: whisper-cli PATH-TO-AUDIO-FILE.wav en large");
             return;
         }
 
