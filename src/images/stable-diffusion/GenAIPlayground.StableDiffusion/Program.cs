@@ -74,14 +74,9 @@ internal class Program
             .LogToTrace()
             .With(new Win32PlatformOptions()
             {
-                UseWindowsUIComposition = true,
-                CompositionBackdropCornerRadius = 8f,
-                //AllowEglInitialization = true,
-                //UseWgl = true
+                WinUICompositionBackdropCornerRadius = 8f
             })
-            //.With(new X11PlatformOptions { UseGpu = true/*, UseEGL = true*/ })
-            .With(new MacOSPlatformOptions { ShowInDock = true, DisableDefaultApplicationMenuItems = true, DisableNativeMenus = true })
-            .With(new AvaloniaNativePlatformOptions { UseGpu = true });
+            .With(new MacOSPlatformOptions { ShowInDock = true, DisableDefaultApplicationMenuItems = true, DisableNativeMenus = true });
         //.WithIcons(container => container.Register<FontAwesomeIconProvider>());
     }
 

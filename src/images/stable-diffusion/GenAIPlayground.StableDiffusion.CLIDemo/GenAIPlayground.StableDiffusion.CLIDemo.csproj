@@ -8,6 +8,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="SharpDiffusion" Version="0.0.4-alpha" />
+    <PackageReference Include="SharpDiffusion" Version="0.0.5-alpha" />
   </ItemGroup>
 </Project>
