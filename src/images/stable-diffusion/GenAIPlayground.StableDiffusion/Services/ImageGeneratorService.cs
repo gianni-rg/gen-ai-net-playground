@@ -17,6 +17,7 @@ namespace GenAIPlayground.StableDiffusion.Services;
 using Avalonia.Media.Imaging;
 using GenAIPlayground.StableDiffusion.Interfaces.Services;
 using GenAIPlayground.StableDiffusion.Models.Settings;
+using MathNet.Numerics.Random;
 using Microsoft.Extensions.Logging;
 using SharpDiffusion;
 using SharpDiffusion.Interfaces;
@@ -65,17 +66,18 @@ public class ImageGeneratorService : IImageGeneratorService
         await Task.Run(() => _sdPipeline.Run(new List<string> { string.Empty }, new List<string> { string.Empty }, sdConfig));
 
     }
-    public List<Bitmap> GenerateImages(string prompt, string negativePrompt, int steps = 20, float guidance = 7.5f, int imagesPerPrompt = 1, Action<int>? callback = null)
+    public List<Bitmap> GenerateImages(string prompt, string negativePrompt, int steps = 20, float guidance = 7.5f, int imagesPerPrompt = 1, int? seed = null, bool safetyCheckEnabled = true, Action<int>? callback = null)
     {
         var bitmaps = new List<Bitmap>();
 
-        _logger.LogInformation("Generating image (steps: {steps}, guidance: {guidance}, imagesPerPrompt: {imagesPerPrompt})", steps, guidance, imagesPerPrompt);
+        _logger.LogInformation("Generating image (steps: {steps}, guidance: {guidance}, imagesPerPrompt: {imagesPerPrompt} Seed: {seed} SafetyCheck: {safetyCheckEnabled})", steps, guidance, imagesPerPrompt, seed, safetyCheckEnabled);
 
         var sdConfig = new StableDiffusionConfig
         {
             NumInferenceSteps = steps,
             GuidanceScale = guidance,
             NumImagesPerPrompt = imagesPerPrompt,
+            Seed = seed
         };
 
         if (string.IsNullOrWhiteSpace(prompt))
@@ -105,8 +107,16 @@ public class ImageGeneratorService : IImageGeneratorService
             return bitmaps;
         }
 
-        foreach (var image in pipelineOutput.Images)
+        for (int i = 0; i < pipelineOutput.Images.Count; i++)
         {
+            if(safetyCheckEnabled && pipelineOutput.NSFWContentDetected[i])
+            {
+                _logger.LogWarning("NSFW content detected in image #{i:02}", i);
+                continue;
+            }
+
+            var image = pipelineOutput.Images[i];
+
             using (MemoryStream ms = new MemoryStream())
             {
                 image.Save(ms, PngFormat.Instance);

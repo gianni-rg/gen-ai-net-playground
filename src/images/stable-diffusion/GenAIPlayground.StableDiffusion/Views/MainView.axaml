@@ -71,6 +71,14 @@
             <NumericUpDown Minimum="1" Maximum="30" Value="{Binding Guidance, Mode=TwoWay}"
                            Increment="0.1" Width="150" />
           </StackPanel>
+          <StackPanel Orientation="Vertical" Margin="20,0,0,0">
+            <Label Margin="0,0,0,0" Content="Seed" />
+            <TextBox Margin="0,0,0,0" Text="{Binding Seed, Mode=TwoWay}"></TextBox>
+          </StackPanel>
+          <StackPanel Orientation="Vertical" Margin="20,0,0,0">
+            <Label Margin="0,0,0,0" Content="Safety Check" />
+            <CheckBox Margin="30,0,0,0" IsChecked="{Binding SafetyCheckEnabled, Mode=TwoWay}"></CheckBox>
+          </StackPanel>
         </StackPanel>
         
         <ScrollViewer Grid.Row="3" Grid.ColumnSpan="2" Margin="10, 10, 10, 10">

@@ -21,6 +21,7 @@ using CommunityToolkit.Mvvm.Messaging;
 using GenAIPlayground.StableDiffusion.Interfaces.Services;
 using GenAIPlayground.StableDiffusion.Interfaces.ViewModels;
 using GenAIPlayground.StableDiffusion.Models;
+using MathNet.Numerics.Random;
 using Microsoft.Extensions.Logging;
 using SixLabors.Fonts;
 using SixLabors.ImageSharp;
@@ -80,6 +81,12 @@ public partial class MainViewModel : ViewModelBase,
     [ObservableProperty]
     private float _guidance;
 
+    [ObservableProperty]
+    private int _seed;
+
+    [ObservableProperty]
+    private bool _safetyCheckEnabled;
+    
     public IViewModel? CurrentViewModel => _navigationStore.CurrentViewModel;
     public IViewModel? CurrentModalViewModel => null; // _modalNavigationStore.CurrentViewModel;
     public bool IsDialogOpen => false; // _modalNavigationStore.CurrentViewModel != null;
@@ -102,6 +109,8 @@ public partial class MainViewModel : ViewModelBase,
         Steps = 25;
         ImagesPerPrompt = 4;
         Guidance = 7.5f;
+        Seed = new Random().Next();
+        SafetyCheckEnabled = true;
     }
 
     public MainViewModel(ILogger logger,
@@ -119,12 +128,15 @@ public partial class MainViewModel : ViewModelBase,
         _imageGeneratorService = imageGeneratorService ?? throw new ArgumentNullException(nameof(imageGeneratorService));
         _stopwatch = new Stopwatch();
 
-        Prompt = "A sorcer with a wizard hat casting a fire ball, beautiful painting, detailed illustration, digital art, overdetailed art, concept art, full character, character concept, short hair, full body shot, highly saturated colors, fantasy character, detailed illustration, hd, 4k, digital art, overdetailed art, concept art, Dan Mumford, Greg rutkowski, Victo Ngai";
+        //Prompt = "A sorcer with a wizard hat casting a fire ball, beautiful painting, detailed illustration, digital art, overdetailed art, concept art, full character, character concept, short hair, full body shot, highly saturated colors, fantasy character, detailed illustration, hd, 4k, digital art, overdetailed art, concept art, Dan Mumford, Greg rutkowski, Victo Ngai";
+        Prompt = "Autumn Leaves, 4k, photorealistic, high-resolution";
         NegativePrompt = string.Empty;
         GeneratedImages = new ObservableCollection<Bitmap>();
         Steps = 25;
         ImagesPerPrompt = 4;
         Guidance = 7.5f;
+        Seed = new Random().Next();
+        SafetyCheckEnabled = true;
     }
 
     public override void Dispose()
@@ -208,7 +220,7 @@ public partial class MainViewModel : ViewModelBase,
         {
             _stopwatch.Restart();
 
-            images = _imageGeneratorService.GenerateImages(Prompt, NegativePrompt, steps: Steps, imagesPerPrompt: ImagesPerPrompt, guidance: Guidance, callback: t => { UpdateStatusBar($"Pipeline is running. Step {t + 1}/{Steps}"); });
+            images = _imageGeneratorService.GenerateImages(Prompt, NegativePrompt, steps: Steps, imagesPerPrompt: ImagesPerPrompt, guidance: Guidance, seed: Seed, safetyCheckEnabled: SafetyCheckEnabled, callback: t => { UpdateStatusBar($"Pipeline is running. Step {t + 1}/{Steps}"); });
 
             _stopwatch.Stop();
         });

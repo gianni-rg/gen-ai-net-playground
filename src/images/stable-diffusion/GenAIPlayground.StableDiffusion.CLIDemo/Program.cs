@@ -56,7 +56,9 @@ internal class Program
         {
             NumInferenceSteps = 25,
             GuidanceScale = 7.5,
-            NumImagesPerPrompt = 4
+            NumImagesPerPrompt = 4,
+            Seed = null, // Set a specific seed or null to generate a random one
+
         };
 
         Stopwatch partialStopwatch = Stopwatch.StartNew();

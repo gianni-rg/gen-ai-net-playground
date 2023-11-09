@@ -25,5 +25,5 @@ public interface IImageGeneratorService
 {
     ImageGeneratorSettings Config { get; }
     Task ConfigureImageGeneratorAsync(string modelId, string onnxProvider, bool halfPrecision, Dictionary<string, string> options);
-    List<Bitmap> GenerateImages(string prompt, string negativePrompt, int steps = 20, float guidance = 7.5f, int imagesPerPrompt = 1, Action<int>? callback = null);
+    List<Bitmap> GenerateImages(string prompt, string negativePrompt, int steps = 20, float guidance = 7.5f, int imagesPerPrompt = 1, int? seed = null, bool safetyCheckEnabled = true, Action<int>? callback = null);
 }
