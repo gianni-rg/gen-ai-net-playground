@@ -27,6 +27,7 @@ A collection of experimental applications to play around with generative AI task
     │   ├── images
     │   │   └── stable-diffusion       <- Stable Diffusion playground
     │   └── text
+    │       ├── llms                   <- Local LLMs (Large-Language-Models) playground
     │       └── whisper                <- Whisper (Speech-To-Text) playground
     |
     └── ...                            <- other files
