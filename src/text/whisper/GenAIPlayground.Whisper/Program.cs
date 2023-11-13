@@ -26,6 +26,8 @@ internal class Program
         CultureInfo.DefaultThreadCurrentCulture = CultureInfo.InvariantCulture;
         CultureInfo.DefaultThreadCurrentUICulture = CultureInfo.InvariantCulture;
 
+        SetEnvForCuda("12.1");
+
 #if RELEASE
         // Add the event handler for handling non-UI thread exceptions
         //AppDomain.CurrentDomain.FirstChanceException += CurrentDomain_FirstChanceException;
@@ -70,5 +72,11 @@ internal class Program
         logger.LogCritical("Unhandled [{category}] error: {ex}", category, ex);
 
         Environment.Exit(-1);
+    }
+
+    private static void SetEnvForCuda(string cudaVersion)
+    {
+        Environment.SetEnvironmentVariable("PATH", $"C:\\Program Files\\NVIDIA GPU Computing Toolkit\\CUDA\\v{cudaVersion}\\bin;C:\\Program Files\\NVIDIA GPU Computing Toolkit\\CUDA\\v{cudaVersion}\\libnvvp;{Environment.GetEnvironmentVariable("PATH")}");
+        Environment.SetEnvironmentVariable("CUDA_PATH", $"C:\\Program Files\\NVIDIA GPU Computing Toolkit\\CUDA\\v{cudaVersion}");
     }
 }

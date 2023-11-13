@@ -31,6 +31,8 @@ internal class Program
         var provider = "CUDAExecutionProvider";
         //var provider = "CPUExecutionProvider";
 
+        SetEnvForCuda("11.7");
+
         var modelId = "PATH_TO_STABLE_DIFFUSION_MODEL_ONNX";
         var halfPrecision = false;
 
@@ -121,5 +123,11 @@ internal class Program
         }
 
         Process.Start("explorer.exe", outputPath);
+    }
+
+    private static void SetEnvForCuda(string cudaVersion)
+    {
+        Environment.SetEnvironmentVariable("PATH", $"C:\\Program Files\\NVIDIA GPU Computing Toolkit\\CUDA\\v{cudaVersion}\\bin;C:\\Program Files\\NVIDIA GPU Computing Toolkit\\CUDA\\v{cudaVersion}\\libnvvp;{Environment.GetEnvironmentVariable("PATH")}");
+        Environment.SetEnvironmentVariable("CUDA_PATH", $"C:\\Program Files\\NVIDIA GPU Computing Toolkit\\CUDA\\v{cudaVersion}");
     }
 }

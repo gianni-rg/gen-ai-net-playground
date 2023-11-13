@@ -25,6 +25,8 @@ internal class Program
         Thread.CurrentThread.CurrentUICulture = CultureInfo.InvariantCulture;
         Thread.CurrentThread.CurrentCulture = CultureInfo.InvariantCulture;
 
+        SetEnvForCuda("12.1");
+
         if (args.Length < 3)
         {
             Console.WriteLine("Usage: whisper-cli <file: path> <language: auto, it, en> <model: tiny, base, small, medium, large>");
@@ -83,9 +85,16 @@ internal class Program
         Console.WriteLine($"Total time: {end - start}");
     }
 
+
     // Get the timecode in SRT format
     private static string GetTimecodeSRT(TimeSpan timeSpan)
     {
         return $"{timeSpan:hh\\:mm\\:ss\\,fff}";
+    }
+
+    private static void SetEnvForCuda(string cudaVersion)
+    {
+        Environment.SetEnvironmentVariable("PATH", $"C:\\Program Files\\NVIDIA GPU Computing Toolkit\\CUDA\\v{cudaVersion}\\bin;C:\\Program Files\\NVIDIA GPU Computing Toolkit\\CUDA\\v{cudaVersion}\\libnvvp;{Environment.GetEnvironmentVariable("PATH")}");
+        Environment.SetEnvironmentVariable("CUDA_PATH", $"C:\\Program Files\\NVIDIA GPU Computing Toolkit\\CUDA\\v{cudaVersion}");
     }
 }
