@@ -59,19 +59,17 @@ internal class Program
         Stopwatch totalStopwatch = Stopwatch.StartNew();
 
 
-        //var diffPipeline = DiffusionPipelineFactory.FromPretrained<OnnxStableDiffusionPipeline>(modelId, provider, halfPrecision, options);
         //Console.WriteLine($"Initializing Stable Diffusion pipeline (v1.5 ONNX on '{provider}' FP16: {halfPrecision}). Please wait...");
+        //var diffPipeline = DiffusionPipelineFactory.FromPretrained<OnnxStableDiffusionPipeline>(modelId, provider, halfPrecision, options);
 
         Console.WriteLine($"Initializing Latent Consistency pipeline (v1.5 ONNX on '{provider}' FP16: {halfPrecision}). Please wait...");
         var diffPipeline = DiffusionPipelineFactory.FromPretrained<OnnxLatentConsistencyPipeline>(modelId, provider, halfPrecision, options);
-        
+
         if (diffPipeline is null)
         {
             Console.WriteLine($"ERROR: unable to initialize the pipeline. Check the configuration.");
             return;
         }
-
-
 
         var initTimeElapsed = totalStopwatch.ElapsedMilliseconds;
         Console.WriteLine($"Stable Diffusion pipeline initialized ({initTimeElapsed}ms).");
@@ -141,7 +139,7 @@ internal class Program
         for (int i = 0; i < output.Images.Count; i++)
         {
             var nsfw = output.NSFWContentDetected[i] ? "_NSFW" : string.Empty;
-            var imageName = $"sd_image_{DateTime.Now.ToString("yyyyMMddHHmm")}_{i}{nsfw}.png";
+            var imageName = $"sd_image_{DateTime.Now:yyyyMMddHHmm}_{i}{nsfw}.png";
             var imagePath = Path.Combine(outputPath, imageName);
             output.Images[i].Save(imagePath);
         }
