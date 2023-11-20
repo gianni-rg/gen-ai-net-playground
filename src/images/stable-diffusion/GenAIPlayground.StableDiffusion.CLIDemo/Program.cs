@@ -20,8 +20,20 @@ using System.Diagnostics;
 
 internal class Program
 {
-    static void Main(string[] args)
+    static async Task Main(string[] args)
     {
+
+        //var hfClient = new HuggingFaceClient(new HttpClient());
+        //var list = await hfClient.GetModels("unpaint");
+        //var cts = new CancellationTokenSource();
+        //foreach (var m in list)
+        //{
+        //    var modelInfo = await hfClient.GetModelAsync(m);
+        //    Console.WriteLine(modelInfo.id);
+        //    await hfClient.TryDownloadModel(m, HuggingFaceModelDetails.StableDiffusionOnnxFileset, HuggingFaceModelDetails.StableDiffusionOnnxOptionals, "F:\\Downloads", cts.Token, (status, msg) => Console.WriteLine($"{status}: {msg}"));
+        //}
+        //return;
+
         var options = new Dictionary<string, string> {
             { "device_id", "0"},
             //{ "gpu_mem_limit",  "15000000000" }, // 15GB
@@ -33,22 +45,33 @@ internal class Program
 
         SetEnvForCuda("11.7");
 
-        var modelId = "PATH_TO_STABLE_DIFFUSION_MODEL_ONNX";
+        //var modelId = "D:\\Personal\\GitHub\\hf-diffusers\\stable_diffusion_onnx-runway";
+        //var halfPrecision = false;
+
+        // From: https://huggingface.co/TheyCallMeHex/LCM-Dreamshaper-V7-ONNX/
+        var modelId = "D:\\Personal\\GitHub\\LCM-Dreamshaper-V7-ONNX";
         var halfPrecision = false;
 
-        //var modelId = "PATH_TO_OPTIMIZED_STABLE_DIFFUSION_MODEL_ONNX"; 
+        //var modelId = "D:\\Personal\\stable-diffusion-onnx-optimizer\\onnxruntime\\onnxruntime\\python\\tools\\transformers\\models\\stable_diffusion\\sd-v1-5-fp16";
         //var halfPrecision = true;
+
 
         Stopwatch totalStopwatch = Stopwatch.StartNew();
 
-        Console.WriteLine($"Initializing Stable Diffusion pipeline (v1.5 ONNX on '{provider}' FP16: {halfPrecision}). Please wait...");
 
-        var sdPipeline = DiffusionPipelineFactory.FromPretrained<OnnxStableDiffusionPipeline>(modelId, provider, halfPrecision, options);
-        if (sdPipeline is null)
+        //var diffPipeline = DiffusionPipelineFactory.FromPretrained<OnnxStableDiffusionPipeline>(modelId, provider, halfPrecision, options);
+        //Console.WriteLine($"Initializing Stable Diffusion pipeline (v1.5 ONNX on '{provider}' FP16: {halfPrecision}). Please wait...");
+
+        Console.WriteLine($"Initializing Latent Consistency pipeline (v1.5 ONNX on '{provider}' FP16: {halfPrecision}). Please wait...");
+        var diffPipeline = DiffusionPipelineFactory.FromPretrained<OnnxLatentConsistencyPipeline>(modelId, provider, halfPrecision, options);
+        
+        if (diffPipeline is null)
         {
             Console.WriteLine($"ERROR: unable to initialize the pipeline. Check the configuration.");
             return;
         }
+
+
 
         var initTimeElapsed = totalStopwatch.ElapsedMilliseconds;
         Console.WriteLine($"Stable Diffusion pipeline initialized ({initTimeElapsed}ms).");
@@ -56,7 +79,7 @@ internal class Program
 
         var sdConfig = new StableDiffusionConfig
         {
-            NumInferenceSteps = 25,
+            NumInferenceSteps = 25, // Can be set to 1~50 steps. LCM support fast inference even <= 4 steps. Recommend: 1~8 steps.
             GuidanceScale = 7.5,
             NumImagesPerPrompt = 4,
             Seed = null, // Set a specific seed or null to generate a random one
@@ -66,8 +89,9 @@ internal class Program
         Stopwatch partialStopwatch = Stopwatch.StartNew();
 
         var prompts = new List<string> {
-            "A sorcer with a wizard hat casting a fire ball, beautiful painting, detailed illustration, digital art, overdetailed art, concept art, full character, character concept, short hair, full body shot, highly saturated colors, fantasy character, detailed illustration, hd, 4k, digital art, overdetailed art, concept art, Dan Mumford, Greg rutkowski, Victo Ngai",
-            //"A man thinking about something to do, while in the office, indoor, beautiful painting, detailed illustration, digital art, overdetailed art, concept art, full character, character concept"
+            //"A sorcer with a wizard hat casting a fire ball, beautiful painting, detailed illustration, digital art, overdetailed art, concept art, full character, character concept, short hair, full body shot, highly saturated colors, fantasy character, detailed illustration, hd, 4k, digital art, overdetailed art, concept art, Dan Mumford, Greg rutkowski, Victo Ngai",
+            //"A man thinking about something to do, while in the office, indoor, beautiful painting, detailed illustration, digital art, overdetailed art, concept art, full character, character concept",
+            "Self-portrait oil painting, a beautiful cyborg with golden hair, 8k"
         };
 
         var negativePrompts = new List<string> {
@@ -98,12 +122,12 @@ internal class Program
 
         Console.WriteLine("Pipeline is running. Please wait...");
 
-        var output = sdPipeline.Run(prompts, negativePrompts, sdConfig, t => { Console.WriteLine($"Pipeline is running. Step {t + 1}/{sdConfig.NumInferenceSteps}"); });
+        var output = diffPipeline.Run(prompts, negativePrompts, sdConfig, t => { Console.WriteLine($"Pipeline is running. Step {t + 1}/{sdConfig.NumInferenceSteps}"); });
 
         totalStopwatch.Stop();
         partialStopwatch.Stop();
 
-        Console.WriteLine($"Stable Diffusion pipeline completed.\nInit: {initTimeElapsed}ms Run: {partialStopwatch.ElapsedMilliseconds}ms Tot: {totalStopwatch.ElapsedMilliseconds}ms\n");
+        Console.WriteLine($"Pipeline completed.\nInit: {initTimeElapsed}ms Run: {partialStopwatch.ElapsedMilliseconds}ms Tot: {totalStopwatch.ElapsedMilliseconds}ms\n");
 
         if (output.Images is null || output.Images.Count == 0)
         {
