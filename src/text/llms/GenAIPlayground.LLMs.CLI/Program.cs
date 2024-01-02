@@ -1,4 +1,4 @@
-﻿// Copyright (C) 2023 Gianni Rosa Gallina. All rights reserved.
+﻿// Copyright (C) 2023-2024 Gianni Rosa Gallina. All rights reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License").
 // You may not use this file except in compliance with the License.
@@ -37,7 +37,7 @@ internal class Program
         Thread.CurrentThread.CurrentUICulture = CultureInfo.InvariantCulture;
         Thread.CurrentThread.CurrentCulture = CultureInfo.InvariantCulture;
 
-        SetEnvForCuda("12.1");
+        SetEnvForCuda("12.3");
 
         var modelPath = args.Length > 0 ? args[0] : string.Empty;
 

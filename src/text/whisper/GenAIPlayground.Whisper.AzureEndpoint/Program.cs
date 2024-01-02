@@ -1,4 +1,4 @@
-﻿// Copyright (C) 2023 Gianni Rosa Gallina. All rights reserved.
+﻿// Copyright (C) 2023-2024 Gianni Rosa Gallina. All rights reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License").
 // You may not use this file except in compliance with the License.
@@ -14,6 +14,7 @@
 
 namespace GenAIPlayground.Whisper.AzureEndpoint;
 
+using System.Diagnostics;
 using System.Net.Http.Headers;
 using System.Text.Json;
 
@@ -24,19 +25,26 @@ internal class Program
     {
         Console.WriteLine("Whisper Endpoint Demo\n=====================");
 
-        var endpointInstanceName = "YOUR-DEPLOYED-INSTANCE-NAME";
-        var endpointLocation = "YOUR-DEPLOYED-INSTANCE-LOCATION";
+        Stopwatch stopwatch = new Stopwatch();
+
+        var deploymentName = "openai-whisper-large-v3-1";
+
+        var endpointInstanceName = "DEPLOYMENT_INSTANCE";
+        var endpointLocation = "DEPLOYMENT_LOCATION";
         var endpointUri = new Uri($"https://{endpointInstanceName}.{endpointLocation}.inference.ml.azure.com/score");
 
-        var audioSourceUri = "URL-TO-YOUR-FILE-TO-TRANSCRIBE.wav";
-        var audioSourceLanguage = "en";
+        var audioSourceUri1 = "URL_TO_FILE_TO_PROCESS";
+        var audioSourceLanguage1 = "it";
+
+        var audioSourceUri2 = "URL_TO_FILE_TO_PROCESS";
+        var audioSourceLanguage2 = "en";
 
         var requestPayload = new WhisperEndpointRequest
         {
-            inputs = new Inputs
+            input_data = new Inputs
             {
-                audio = new string[] { audioSourceUri },
-                language = new string[] { audioSourceLanguage },
+                audio = [audioSourceUri1, audioSourceUri2],
+                language = [audioSourceLanguage1, audioSourceLanguage2],
             }
         };
 
@@ -62,16 +70,28 @@ internal class Program
 
             // This header will force the request to go to a specific deployment.
             // Remove this line to have the request observe the endpoint traffic rules
-            content.Headers.Add("azureml-model-deployment", "openai-whisper-large-demo");
+            content.Headers.Add("azureml-model-deployment", deploymentName);
 
-            Console.WriteLine($"Transcribing '{audioSourceUri}'");
-            Console.WriteLine($"Sending request. Please wait...");
+            Console.WriteLine($"Transcribing '{audioSourceUri1}', '{audioSourceUri2}'");
+            Console.WriteLine($"Sending request. Please wait...\n");
+            stopwatch.Start();
             var response = await client.PostAsync(string.Empty, content);
 
             if (response.IsSuccessStatusCode)
             {
                 string result = await response.Content.ReadAsStringAsync();
-                Console.WriteLine($"Result: {result}");
+                var deserializedResult = JsonSerializer.Deserialize<WhisperEndpointResponse>(result);
+                if (deserializedResult is null)
+                {
+                    Console.WriteLine("No transcriptions available.");
+                }
+                else
+                {
+                    foreach (var item in deserializedResult)
+                    {
+                        Console.WriteLine($"Transcription: {item.text}\n");
+                    }
+                }
             }
             else
             {
@@ -81,6 +101,8 @@ internal class Program
                 string responseContent = await response.Content.ReadAsStringAsync();
                 Console.WriteLine(responseContent);
             }
+            stopwatch.Stop();
+            Console.WriteLine($"\nTotal Processing time: {stopwatch.Elapsed}\n");
             Console.ReadLine();
         }
     }

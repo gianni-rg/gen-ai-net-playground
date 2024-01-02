@@ -1,4 +1,4 @@
-// Copyright (C) 2023-2024 Gianni Rosa Gallina. All rights reserved.
+﻿// Copyright (C) 2023-2024 Gianni Rosa Gallina. All rights reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License").
 // You may not use this file except in compliance with the License.
@@ -12,9 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace GenAIPlayground.Whisper.Models.Dialog;
+namespace GenAIPlayground.Whisper.AzureEndpoint;
 
-public abstract class DialogResultBase
+public class WhisperEndpointResponse : List<WhisperEndpointResponseItem>
 {
-
 }
+
+public class WhisperEndpointResponseItem
+{
+    public string text { get; set; }
+}
+

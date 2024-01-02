@@ -1,4 +1,4 @@
-﻿// Copyright (C) 2023 Gianni Rosa Gallina. All rights reserved.
+﻿// Copyright (C) 2023-2024 Gianni Rosa Gallina. All rights reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License").
 // You may not use this file except in compliance with the License.
@@ -25,12 +25,12 @@ internal class Program
         Thread.CurrentThread.CurrentUICulture = CultureInfo.InvariantCulture;
         Thread.CurrentThread.CurrentCulture = CultureInfo.InvariantCulture;
 
-        SetEnvForCuda("12.1");
+        SetEnvForCuda("12.3");
 
         if (args.Length < 3)
         {
-            Console.WriteLine("Usage: whisper-cli <file: path> <language: auto, it, en> <model: tiny, base, small, medium, large>");
-            Console.WriteLine("Example: whisper-cli PATH-TO-AUDIO-FILE.wav en large");
+            Console.WriteLine("Usage: whisper-cli <file: path> <language: auto, it, en> <model: tiny, base, small, medium, largeV1, largeV2, largeV3>");
+            Console.WriteLine("Example: whisper-cli PATH-TO-AUDIO-FILE.wav en largeV3");
             return;
         }
 
@@ -40,7 +40,7 @@ internal class Program
 
         if (!Enum.TryParse<GgmlType>(model, true, out var modelType))
         {
-            Console.WriteLine($"Invalid model type '{model}'. Supported models: tiny, base, small, medium, large");
+            Console.WriteLine($"Invalid model type '{model}'. Supported models: tiny, base, small, medium, largeV1, largeV2, largeV3");
             return;
         }
 

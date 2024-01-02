@@ -1,4 +1,4 @@
-﻿// Copyright (C) 2023 Gianni Rosa Gallina. All rights reserved.
+﻿// Copyright (C) 2023-2024 Gianni Rosa Gallina. All rights reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License").
 // You may not use this file except in compliance with the License.
@@ -16,7 +16,7 @@ namespace GenAIPlayground.Whisper.AzureEndpoint;
 
 public class WhisperEndpointRequest
 {
-    public Inputs inputs { get; set; }
+    public Inputs input_data { get; set; }
 }
 
 public class Inputs

@@ -1,1 +1,1 @@
-﻿ ENDPOINT_KEY // Can be found in the Azure portal
+﻿YOUR-DEPLOYMENT-KEY

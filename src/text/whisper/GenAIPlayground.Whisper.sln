@@ -7,7 +7,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GenAIPlayground.Whisper", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GenAIPlayground.Whisper.CLI", "GenAIPlayground.Whisper.CLI\GenAIPlayground.Whisper.CLI.csproj", "{2B535E02-A3F3-4465-935B-E10A4F9E76A1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GenAIPlayground.Whisper.AzureEndpoint", "GenAIPlayground.Whisper.AzureEndpoint\GenAIPlayground.Whisper.AzureEndpoint.csproj", "{8F8506B1-AA7C-4A95-9096-7268FDC99AE0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GenAIPlayground.Whisper.AzureEndpoint", "GenAIPlayground.Whisper.AzureEndpoint\GenAIPlayground.Whisper.AzureEndpoint.csproj", "{8F8506B1-AA7C-4A95-9096-7268FDC99AE0}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{0E47C60E-4660-450B-AC84-1F0E5A45DE09}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

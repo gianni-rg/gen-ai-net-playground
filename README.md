@@ -39,7 +39,7 @@ Clone the repository and build.
 Requirements to run locally:
 
 - Windows 11
-- Visual Studio 2022, .NET 7.0
+- Visual Studio 2022, .NET 8.0
 - GPU enabled machine, with CUDA and cuDNN properly configured
 
 This was built on a NVIDIA RTX 3090 and it has not been tested on different devices.
@@ -62,4 +62,4 @@ Feel free to file issues and pull requests on the repository and I'll address th
 You may find specific license information for third party projects in each project sub-folder.  
 Where not otherwise specified, everything is licensed under the [APACHE 2.0 License](./LICENSE).
 
-Copyright (C) 2023 Gianni Rosa Gallina.
+Copyright (C) 2023-2024 Gianni Rosa Gallina.

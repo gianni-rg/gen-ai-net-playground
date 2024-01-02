@@ -348,3 +348,12 @@ MigrationBackup/
 
 # Ionide (cross platform F# VS Code tools) working folder
 .ionide/
+
+# Debug
+launchSettings.json
+
+# Assets files
+[Aa]ssets/
+
+# AI Models
+[Mm]odels/*
