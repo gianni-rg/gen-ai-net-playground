@@ -1,4 +1,4 @@
-﻿// Copyright (C) 2023 Gianni Rosa Gallina. All rights reserved.
+﻿// Copyright (C) 2023-2024 Gianni Rosa Gallina. All rights reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License").
 // You may not use this file except in compliance with the License.
@@ -21,7 +21,6 @@ using CommunityToolkit.Mvvm.Messaging;
 using GenAIPlayground.StableDiffusion.Interfaces.Services;
 using GenAIPlayground.StableDiffusion.Interfaces.ViewModels;
 using GenAIPlayground.StableDiffusion.Models;
-using MathNet.Numerics.Random;
 using Microsoft.Extensions.Logging;
 using SixLabors.Fonts;
 using SixLabors.ImageSharp;
@@ -86,7 +85,7 @@ public partial class MainViewModel : ViewModelBase,
 
     [ObservableProperty]
     private bool _safetyCheckEnabled;
-    
+
     public IViewModel? CurrentViewModel => _navigationStore.CurrentViewModel;
     public IViewModel? CurrentModalViewModel => null; // _modalNavigationStore.CurrentViewModel;
     public bool IsDialogOpen => false; // _modalNavigationStore.CurrentViewModel != null;
@@ -266,12 +265,12 @@ public partial class MainViewModel : ViewModelBase,
 
     partial void OnExecutionProviderChanging(string value)
     {
-        Task.Run( () => Messenger.Send(new BusyStatusChangedMessage(true, true)));
+        Task.Run(() => Messenger.Send(new BusyStatusChangedMessage(true, true)));
     }
 
     partial void OnExecutionProviderChanged(string value)
     {
-        Task.Run(() => InitializeImageGeneratorAsync() );
+        Task.Run(() => InitializeImageGeneratorAsync());
     }
 
     private async Task InitializeImageGeneratorAsync()
@@ -287,7 +286,7 @@ public partial class MainViewModel : ViewModelBase,
             };
 
         var provider = _imageGeneratorService.Config.Provider; // use ExecutionProvider if you want to change the provider in the UI
-        
+
         string onnxProvider = provider switch
         {
             "CUDA" => "CUDAExecutionProvider",

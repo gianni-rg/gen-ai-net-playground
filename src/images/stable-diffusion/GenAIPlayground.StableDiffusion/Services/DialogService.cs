@@ -1,4 +1,4 @@
-// Copyright (C) 2023 Gianni Rosa Gallina. All rights reserved.
+// Copyright (C) 2023-2024 Gianni Rosa Gallina. All rights reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License").
 // You may not use this file except in compliance with the License.
@@ -79,7 +79,7 @@ public class DialogService : IDialogService
     }
 
     public Task ShowDialogAsync<TViewModel>()
-        where TViewModel : IViewModel 
+        where TViewModel : IViewModel
         => ShowDialogAsync<DialogResultBase, TViewModel>();
 
     public Task ShowDialogAsync<TViewModel, TParameter>(TParameter parameter)

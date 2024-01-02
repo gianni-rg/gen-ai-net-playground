@@ -1,4 +1,4 @@
-// Copyright (C) 2023 Gianni Rosa Gallina. All rights reserved.
+// Copyright (C) 2023-2024 Gianni Rosa Gallina. All rights reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License").
 // You may not use this file except in compliance with the License.
@@ -17,7 +17,6 @@ namespace GenAIPlayground.StableDiffusion;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
-using Avalonia.Data.Core;
 using Avalonia.Data.Core.Plugins;
 using Avalonia.Markup.Xaml;
 using GenAIPlayground.StableDiffusion.DependencyInjection;

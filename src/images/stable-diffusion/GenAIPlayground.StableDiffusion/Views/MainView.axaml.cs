@@ -1,4 +1,4 @@
-// Copyright (C) 2023 Gianni Rosa Gallina. All rights reserved.
+// Copyright (C) 2023-2024 Gianni Rosa Gallina. All rights reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License").
 // You may not use this file except in compliance with the License.
@@ -16,7 +16,7 @@ namespace GenAIPlayground.StableDiffusion.Views;
 
 using Avalonia.Controls;
 
-public partial class MainView: UserControl
+public partial class MainView : UserControl
 {
     public MainView()
     {

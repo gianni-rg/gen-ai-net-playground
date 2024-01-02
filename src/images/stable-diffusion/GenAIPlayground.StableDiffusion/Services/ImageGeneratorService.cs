@@ -1,4 +1,4 @@
-﻿// Copyright (C) 2023 Gianni Rosa Gallina. All rights reserved.
+﻿// Copyright (C) 2023-2024 Gianni Rosa Gallina. All rights reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License").
 // You may not use this file except in compliance with the License.
@@ -17,7 +17,6 @@ namespace GenAIPlayground.StableDiffusion.Services;
 using Avalonia.Media.Imaging;
 using GenAIPlayground.StableDiffusion.Interfaces.Services;
 using GenAIPlayground.StableDiffusion.Models.Settings;
-using MathNet.Numerics.Random;
 using Microsoft.Extensions.Logging;
 using SharpDiffusion;
 using SharpDiffusion.Interfaces;
@@ -109,7 +108,7 @@ public class ImageGeneratorService : IImageGeneratorService
 
         for (int i = 0; i < pipelineOutput.Images.Count; i++)
         {
-            if(safetyCheckEnabled && pipelineOutput.NSFWContentDetected[i])
+            if (safetyCheckEnabled && pipelineOutput.NSFWContentDetected[i])
             {
                 _logger.LogWarning("NSFW content detected in image #{i:02}", i);
                 continue;

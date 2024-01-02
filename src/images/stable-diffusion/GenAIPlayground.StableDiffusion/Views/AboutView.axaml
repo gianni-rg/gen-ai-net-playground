@@ -24,7 +24,7 @@
 						</MultiBinding>
 					</TextBlock.Text>
 				</TextBlock>
-				<TextBlock Classes="dialogTextBlock" Text="Copyright (C) 2023 Gianni Rosa Gallina" />
+				<TextBlock Classes="dialogTextBlock" Text="Copyright (C) 2023-2024 Gianni Rosa Gallina" />
 			</StackPanel>
 		</StackPanel>
 		<Button Grid.Row="1" Classes="dialogButton"
