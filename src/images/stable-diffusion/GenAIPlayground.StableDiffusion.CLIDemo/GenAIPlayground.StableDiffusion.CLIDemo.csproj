@@ -8,6 +8,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\..\SharpDiffusion\src\SharpDiffusion\SharpDiffusion.csproj" />
+    <PackageReference Include="SharpDiffusion" Version="0.0.6-alpha" />
   </ItemGroup>
 </Project>

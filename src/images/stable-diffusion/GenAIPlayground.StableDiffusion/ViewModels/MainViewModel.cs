@@ -127,8 +127,8 @@ public partial class MainViewModel : ViewModelBase,
         _imageGeneratorService = imageGeneratorService ?? throw new ArgumentNullException(nameof(imageGeneratorService));
         _stopwatch = new Stopwatch();
 
-        //Prompt = "A sorcer with a wizard hat casting a fire ball, beautiful painting, detailed illustration, digital art, overdetailed art, concept art, full character, character concept, short hair, full body shot, highly saturated colors, fantasy character, detailed illustration, hd, 4k, digital art, overdetailed art, concept art, Dan Mumford, Greg rutkowski, Victo Ngai";
-        Prompt = "Autumn Leaves, 4k, photorealistic, high-resolution";
+        Prompt = "A sorcer with a wizard hat casting a fire ball, beautiful painting, detailed illustration, digital art, overdetailed art, concept art, full character, character concept, short hair, full body shot, highly saturated colors, fantasy character, detailed illustration, hd, 4k, digital art, overdetailed art, concept art, Dan Mumford, Greg rutkowski, Victo Ngai";
+        //Prompt = "Autumn Leaves, 4k, photorealistic, high-resolution";
         NegativePrompt = string.Empty;
         GeneratedImages = new ObservableCollection<Bitmap>();
         Steps = 25;

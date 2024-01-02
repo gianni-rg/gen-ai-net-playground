@@ -1,4 +1,4 @@
-﻿// Copyright (C) 2023 Gianni Rosa Gallina. All rights reserved.
+﻿// Copyright (C) 2023-2024 Gianni Rosa Gallina. All rights reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License").
 // You may not use this file except in compliance with the License.
@@ -22,48 +22,24 @@ internal class Program
 {
     static async Task Main(string[] args)
     {
-
-        //var hfClient = new HuggingFaceClient(new HttpClient());
-        //var list = await hfClient.GetModels("unpaint");
-        //var cts = new CancellationTokenSource();
-        //foreach (var m in list)
-        //{
-        //    var modelInfo = await hfClient.GetModelAsync(m);
-        //    Console.WriteLine(modelInfo.id);
-        //    await hfClient.TryDownloadModel(m, HuggingFaceModelDetails.StableDiffusionOnnxFileset, HuggingFaceModelDetails.StableDiffusionOnnxOptionals, "F:\\Downloads", cts.Token, (status, msg) => Console.WriteLine($"{status}: {msg}"));
-        //}
-        //return;
-
         var options = new Dictionary<string, string> {
             { "device_id", "0"},
             //{ "gpu_mem_limit",  "15000000000" }, // 15GB
             { "arena_extend_strategy", "kSameAsRequested" },
-            };
+        };
 
         var provider = "CUDAExecutionProvider";
         //var provider = "CPUExecutionProvider";
 
-        SetEnvForCuda("11.7");
+        SetEnvForCuda("11.8");
 
-        //var modelId = "D:\\Personal\\GitHub\\hf-diffusers\\stable_diffusion_onnx-runway";
-        //var halfPrecision = false;
-
-        // From: https://huggingface.co/TheyCallMeHex/LCM-Dreamshaper-V7-ONNX/
-        var modelId = "D:\\Personal\\GitHub\\LCM-Dreamshaper-V7-ONNX";
+        var modelId = "PATH_TO_STABLE_DIFFUSION_MODEL_ONNX";
         var halfPrecision = false;
-
-        //var modelId = "D:\\Personal\\stable-diffusion-onnx-optimizer\\onnxruntime\\onnxruntime\\python\\tools\\transformers\\models\\stable_diffusion\\sd-v1-5-fp16";
-        //var halfPrecision = true;
-
 
         Stopwatch totalStopwatch = Stopwatch.StartNew();
 
-
-        //Console.WriteLine($"Initializing Stable Diffusion pipeline (v1.5 ONNX on '{provider}' FP16: {halfPrecision}). Please wait...");
-        //var diffPipeline = DiffusionPipelineFactory.FromPretrained<OnnxStableDiffusionPipeline>(modelId, provider, halfPrecision, options);
-
-        Console.WriteLine($"Initializing Latent Consistency pipeline (v1.5 ONNX on '{provider}' FP16: {halfPrecision}). Please wait...");
-        var diffPipeline = DiffusionPipelineFactory.FromPretrained<OnnxLatentConsistencyPipeline>(modelId, provider, halfPrecision, options);
+        Console.WriteLine($"Initializing Stable Diffusion pipeline (v1.5 ONNX on '{provider}' FP16: {halfPrecision}). Please wait...");
+        var diffPipeline = DiffusionPipelineFactory.FromPretrained<OnnxStableDiffusionPipeline>(modelId, provider, halfPrecision, options);
 
         if (diffPipeline is null)
         {
@@ -87,14 +63,13 @@ internal class Program
         Stopwatch partialStopwatch = Stopwatch.StartNew();
 
         var prompts = new List<string> {
-            //"A sorcer with a wizard hat casting a fire ball, beautiful painting, detailed illustration, digital art, overdetailed art, concept art, full character, character concept, short hair, full body shot, highly saturated colors, fantasy character, detailed illustration, hd, 4k, digital art, overdetailed art, concept art, Dan Mumford, Greg rutkowski, Victo Ngai",
+            "A sorcer with a wizard hat casting a fire ball, beautiful painting, detailed illustration, digital art, overdetailed art, concept art, full character, character concept, short hair, full body shot, highly saturated colors, fantasy character, detailed illustration, hd, 4k, digital art, overdetailed art, concept art, Dan Mumford, Greg rutkowski, Victo Ngai"
             //"A man thinking about something to do, while in the office, indoor, beautiful painting, detailed illustration, digital art, overdetailed art, concept art, full character, character concept",
-            "Self-portrait oil painting, a beautiful cyborg with golden hair, 8k"
+            //"Self-portrait oil painting, a beautiful cyborg with golden hair, 8k"
         };
 
         var negativePrompts = new List<string> {
             string.Empty,
-            //string.Empty,     
         };
 
         Console.WriteLine($"Pipeline will generate {sdConfig.NumImagesPerPrompt} image(s) per prompt @ {sdConfig.Height}x{sdConfig.Width}");

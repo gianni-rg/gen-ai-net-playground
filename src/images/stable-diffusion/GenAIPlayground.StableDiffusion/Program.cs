@@ -37,7 +37,7 @@ internal class Program
         CultureInfo.DefaultThreadCurrentCulture = CultureInfo.InvariantCulture;
         CultureInfo.DefaultThreadCurrentUICulture = CultureInfo.InvariantCulture;
 
-        SetEnvForCuda("11.7");
+        SetEnvForCuda("11.8");
 
 #if RELEASE
         // Add the event handler for handling non-UI thread exceptions
